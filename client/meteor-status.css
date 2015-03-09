@@ -1,0 +1,14 @@
+.meteor-status {
+    background-color: #323232;
+    color: #fff;
+    position: fixed;
+    display: none;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+.meteor-status-shown{
+     height: auto;
+ }
