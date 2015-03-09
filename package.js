@@ -1,7 +1,7 @@
 Package.describe({
     name: '255kb:meteor-status',
     version: '1.0.0',
-    summary: 'Meteor Status is a package which automatically alerts users when the connection to the server has been lost.',
+    summary: 'Meteor Status automatically alerts users when the connection to the server has been lost.',
     git: 'https://github.com/255kb/meteor-status',
     documentation: 'README.md'
 });
