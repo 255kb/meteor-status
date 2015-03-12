@@ -4,6 +4,12 @@
 Meteor Status is a package which automatically alerts users when the connection to the server has been lost.
 It also shows a countdown (in seconds) until the next retry and allows users to manually retry in the meantime.
 
+The alert is fixed at the bottom of the screen and the design is based on Google's [Material Design snackbars](http://www.google.com/design/spec/components/snackbars-toasts.html).
+
+Here is how it looks like:
+
+![Meteor Status screenshot](docs/screenshot.png)
+
 ## Installation
 
 Add the package in your Meteor application with this command:
@@ -20,3 +26,4 @@ Add the template before the `body` closing tag:
         ...
         {{> meteorStatus}}
     </body>
+
