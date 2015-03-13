@@ -10,7 +10,7 @@ Here is how it looks like:
 
 ![Meteor Status screenshot](docs/screenshot.png)
 
-This package should be compatible with packages like [Smart Disconnect](https://github.com/mixmaxhq/meteor-smart-disconnect) as the alert does not show up in case of a manual disconnect.
+This package should be compatible with packages like [Smart Disconnect](https://github.com/mixmaxhq/meteor-smart-disconnect) as the alert does not show up in case of a manual disconnect (triggered with `Meteor.disconnect()`).
 
 ## Installation
 
