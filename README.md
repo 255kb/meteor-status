@@ -22,10 +22,32 @@ meteor add 255kb:meteor-status
 
 ## Usage
 
-Add the template before the `body` closing tag:
+Add the template before the `body` closing tag or anywhere else if you use the option `style=false` (see below):
 
     <body>
         ...
         {{> meteorStatus}}
     </body>
 
+
+## Options
+
+You can add the following options to the template: 
+
+- `style=false`: remove style/UI/bottom placement (only displays the text and the link in a `<div>`)
+- `lang='en'`: change language (currently **fr** and **en** supported, default to **en**)
+
+
+    <body>
+        ...
+        {{> meteorStatus style=false lang='fr'}}
+    </body>
+
+
+## Changelog
+
+### v1.2.0:
+- Improved default design (font and link style)
+- Option to disable UI/design (text only) 
+- switch to local reactive vars instead of session vars
+- added i18n support and French language

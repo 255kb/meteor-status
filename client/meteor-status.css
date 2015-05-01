@@ -1,13 +1,24 @@
 .meteor-status {
+    display: none;
+}
+.meteor-status.meteor-status-styled {
     background-color: #323232;
     color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
     position: fixed;
-    display: none;
     width: 100%;
     bottom: 0;
     left: 0;
     padding: 15px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+}
+.meteor-status.meteor-status-styled a, .meteor-status.meteor-status-styled a:active, .meteor-status.meteor-status-styled a:focus {
+    text-decoration: none;
+    color: #2196F3;
+}
+.meteor-status.meteor-status-styled a:hover {
+    text-decoration: none;
+    color: #1976D2;
 }
 .meteor-status-shown{
      height: auto;

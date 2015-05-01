@@ -1,14 +1,38 @@
-Session.setDefault('meteorStatusNextRetry', 0);
-Session.setDefault('meteorStatusIsOffline', false);
+var meteorStatusNextRetry = new ReactiveVar(0);
+var meteorStatusIsOffline = new ReactiveVar(false);
+var meteorStatusIsStyled = new ReactiveVar(true);
+var meteorStatusCurrentLang = new ReactiveVar('en');
 
 var updateCountdown = function() {
-    Session.set('meteorStatusNextRetry', Math.round((Meteor.status().retryTime - (new Date()).getTime()) / 1000));
+    meteorStatusNextRetry.set(Math.round((Meteor.status().retryTime - (new Date()).getTime()) / 1000));
 };
 var updateCountdownTimeout;
 
+Template.meteorStatus.onRendered(function () {
+    if(Template.currentData()) {
+        //set style
+        if(Template.currentData().style !== undefined && Template.currentData().style === false) {
+            meteorStatusIsStyled.set(false);
+        }
+        //set language
+        if(Template.currentData().lang !== undefined) {
+            meteorStatusCurrentLang.set(Template.currentData().lang);
+        }
+    }
+});
+
 Template.meteorStatus.helpers({
+    langDisconnected: function() {
+        return meteorStatusI18n[meteorStatusCurrentLang.get()].disconnected.replace('%delay%', meteorStatusNextRetry.get());
+    },
+    langRetryLink: function() {
+        return meteorStatusI18n[meteorStatusCurrentLang.get()].retry;
+    },
     getRetryDelay: function() {
-        return Session.get('meteorStatusNextRetry');
+        return meteorStatusNextRetry.get();
+    },
+    isStyled: function() {
+        return meteorStatusIsStyled.get();
     }
 });
 Template.meteorStatus.events({
@@ -25,12 +49,12 @@ Tracker.autorun(function() {
 
     // check if voluntarily offline
     if(status.status === 'offline') {
-        Session.set('meteorStatusIsOffline', true);
+        meteorStatusIsOffline.set(true);
     } else if(status.status === 'failed' || status.status === 'waiting') {
-        Session.set('meteorStatusIsOffline', false);
+        meteorStatusIsOffline.set(false);
     }
 
-    if(!status.connected && Session.equals('meteorStatusIsOffline', false)){
+    if(!status.connected && meteorStatusIsOffline.get() === false){
         $('.meteor-status').addClass('meteor-status-shown').fadeIn(300, 'linear');
     } else {
         $('.meteor-status').fadeOut(300, 'linear').removeClass('meteor-status-shown');
@@ -39,7 +63,7 @@ Tracker.autorun(function() {
     if(status.status === 'waiting') {
         updateCountdownTimeout = Meteor.setInterval(updateCountdown, 1000);
     } else {
-        Session.set('meteorStatusNextRetry', 0);
+        meteorStatusNextRetry.set(0);
         Meteor.clearInterval(updateCountdownTimeout);
     }
 });
