@@ -1,3 +1,9 @@
 <template name="meteorStatus">
-    <div class="meteor-status {{#if isStyled}}meteor-status-styled{{/if}}">{{langDisconnected}} <a href="#" class="retry">{{langRetryLink}}</a></div>
+    {{#if show}}
+        {{#if isStyled}}
+            <div class="meteor-status meteor-status-styled">{{langDisconnected}} <a href="#" class="retry">{{langRetryLink}}</a></div>
+        {{else}}
+                {{langDisconnected}} <a href="#" class="retry">{{langRetryLink}}</a>
+        {{/if}}
+    {{/if}}
 </template>

@@ -51,3 +51,6 @@ You can add the following options to the template:
 - Option to disable UI/design (text only) 
 - switch to local reactive vars instead of session vars
 - added i18n support and French language
+
+### v1.2.1:
+- higher z-index for styled version
