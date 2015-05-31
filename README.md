@@ -11,6 +11,7 @@ Here is how it looks like:
 ![Meteor Status screenshot](docs/screenshot.png)
 
 This package should be compatible with packages like [Smart Disconnect](https://github.com/mixmaxhq/meteor-smart-disconnect) as the alert does not show up in case of a manual disconnect (triggered with `Meteor.disconnect()`).
+Also, the first connection attempt (when the application is loaded for the first time) only shows the alert message on mobile (Cordova).
 
 ## Installation
 
@@ -34,13 +35,14 @@ Add the template before the `body` closing tag or anywhere else if you use the o
 
 You can add the following options to the template: 
 
-- `style=false`: remove style/UI/bottom placement (only displays the text and the link in a `<div>`)
-- `lang='en'`: change language (currently **fr** and **en** supported, default to **en**)
+- `style=false`: remove style/UI/positioning (only displays the text and the link)
+- `lang='en'`: change language (currently 'fr' and 'en' supported, default to 'en')
+- `position='top'`: change positioning for styled version ('top' or 'bottom', default to bottom)
 
 
     <body>
         ...
-        {{> meteorStatus style=false lang='fr'}}
+        {{> meteorStatus style=false lang='fr' position='top'}}
     </body>
 
 
@@ -52,5 +54,9 @@ You can add the following options to the template:
 - switch to local reactive vars instead of session vars
 - added i18n support and French language
 
-### v1.2.1:
+### v1.3.0:
+- package rewritten to allow multiple instances, also lighter
+- no more jquery dependency
 - higher z-index for styled version
+- ability to position to top
+- lighter unstyled version (text only, no wrapping div)

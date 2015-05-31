@@ -1,76 +1,89 @@
-var nextRetry = new ReactiveVar(0);
-var connectionStatus = new ReactiveVar(Meteor.status());
-var isOffline = new ReactiveVar(false);
-var isStyled = new ReactiveVar(true);
-var currentLang = new ReactiveVar('en');
-
-var updateCountdown = function() {
-    nextRetry.set(Math.round((Meteor.status().retryTime - (new Date()).getTime()) / 1000));
-};
-var updateCountdownTimeout;
-
 Template.meteorStatus.onCreated(function () {
-    Tracker.autorun(function() {
+    var instance = this;
 
-        // check if voluntarily offline
-        if(connectionStatus.status === 'offline') {
-            isOffline.set(true);
-        } else if(connectionStatus.status === 'failed' || connectionStatus.status === 'waiting') {
-            isOffline.set(false);
-        }
+    instance.updateCountdownTimeout;
+    instance.nextRetry = new ReactiveVar(0);
+    instance.options = {
+        style: true,
+        lang: 'en',
+        position: 'bottom'
+    };
+    instance.firstConnection = new ReactiveVar(true);
 
-        /*if(!connectionStatus.connected && isOffline.get() === false){
-            $('.meteor-status').addClass('meteor-status-shown').fadeIn(300, 'linear');
-        } else {
-            $('.meteor-status').fadeOut(300, 'linear').removeClass('meteor-status-shown');
-        }*/
-
-        if(connectionStatus.status === 'waiting') {
-            updateCountdownTimeout = Meteor.setInterval(updateCountdown, 1000);
-        } else {
-            nextRetry.set(0);
-            Meteor.clearInterval(updateCountdownTimeout);
-        }
-    });
-});
-
-Template.meteorStatus.onRendered(function () {
+    //get template options
     if(Template.currentData()) {
         //set style
-        if(Template.currentData().style !== undefined && Template.currentData().style === false) {
-            isStyled.set(false);
+        if(Template.currentData().style !== undefined) {
+            instance.options.style = Template.currentData().style;
         }
         //set language
         if(Template.currentData().lang !== undefined) {
-            currentLang.set(Template.currentData().lang);
+            instance.options.lang = Template.currentData().lang;
         }
+        //set positioning
+        if(Template.currentData().position !== undefined) {
+            instance.options.position = Template.currentData().position;
+        }
+    }
+
+    //set tracker for retry delay
+    Tracker.autorun(function() {
+        //set nextRetry delay update
+        if(Meteor.status().status === 'waiting') {
+            instance.updateCountdownTimeout = Meteor.setInterval(function() {
+                instance.nextRetry.set(Math.round((Meteor.status().retryTime - (new Date()).getTime()) / 1000));
+            }, 1000);
+        } else {
+            instance.nextRetry.set(0);
+            Meteor.clearInterval(instance.updateCountdownTimeout);
+        }
+    });
+
+    //do not alert on first connection to avoid meteor status flashing, unless we are on cordova (may be useful to see that we are online)
+    if(!Meteor.isCordova) {
+        Tracker.autorun(function(computation) {
+            if(Meteor.status().connected && Meteor.status().status === 'connected') {
+                instance.firstConnection.set(false);
+                computation.stop();
+            }
+        });
     }
 });
 
 Template.meteorStatus.helpers({
     langDisconnected: function() {
-        return meteorStatusI18n[currentLang.get()].disconnected.replace('%delay%', nextRetry.get());
+        return meteorStatusI18n[Template.instance().options.lang].disconnected.replace('%delay%', Template.instance().nextRetry.get());
     },
     langRetryLink: function() {
-        return meteorStatusI18n[currentLang.get()].retry;
-    },
-    getRetryDelay: function() {
-        return nextRetry.get();
+        return meteorStatusI18n[Template.instance().options.lang].retry;
     },
     isStyled: function() {
-        return isStyled.get();
+        return Template.instance().options.style;
+    },
+    position: function () {
+        if(Template.instance().options.position === 'top') {
+            return 'meteor-status-top';
+        }
+        return 'meteor-status-bottom';
     },
     show: function () {
-        if(!connectionStatus.connected && isOffline.get() === false){
-            return true;
+        //if browser do not show on first connection attempt
+        if(!Meteor.isCordova) {
+            if(!Template.instance().firstConnection.get() && !Meteor.status().connected && Meteor.status().status !== 'offline'){
+                return true;
+            }
         } else {
-            return false;
+            if(!Meteor.status().connected && Meteor.status().status !== 'offline'){
+                return true;
+            }
         }
+        return false;
     }
 });
+
 Template.meteorStatus.events({
-    'click a.retry': function() {
-        if(connectionStatus.status !== 'connecting') {
+    'click a.meteor-status-retry': function() {
+        if(Meteor.status().status !== 'connecting') {
             Meteor.reconnect();
         }
         return false;
