@@ -48,11 +48,9 @@ You can add the following options to the template:
 
 ## Changelog
 
-### v1.2.0:
-- Improved default design (font and link style)
-- Option to disable UI/design (text only) 
-- switch to local reactive vars instead of session vars
-- added i18n support and French language
+### v1.3.1:
+- removed uneeded dependency (session)
+- new language (chinese)
 
 ### v1.3.0:
 - package rewritten to allow multiple instances, also lighter
@@ -60,3 +58,9 @@ You can add the following options to the template:
 - higher z-index for styled version
 - ability to position to top
 - lighter unstyled version (text only, no wrapping div)
+
+### v1.2.0:
+- Improved default design (font and link style)
+- Option to disable UI/design (text only) 
+- switch to local reactive vars instead of session vars
+- added i18n support and French language
