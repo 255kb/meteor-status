@@ -48,6 +48,10 @@ You can add the following options to the template:
 
 ## Changelog
 
+### v1.3.2:
+- alert does not show on first connection on cordova anymore (avoid having the alert showed at every startup)
+- alert does not show on first retry when disconnected (avoid alert appearing too frequently when having a laggy mobile connection)
+
 ### v1.3.1:
 - removed uneeded dependency (session)
 - new language (chinese)

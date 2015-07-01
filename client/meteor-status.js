@@ -39,15 +39,13 @@ Template.meteorStatus.onCreated(function () {
         }
     });
 
-    //do not alert on first connection to avoid meteor status flashing, unless we are on cordova (may be useful to see that we are online)
-    if(!Meteor.isCordova) {
-        Tracker.autorun(function(computation) {
-            if(Meteor.status().connected && Meteor.status().status === 'connected') {
-                instance.firstConnection.set(false);
-                computation.stop();
-            }
-        });
-    }
+    //do not alert on first connection to avoid meteor status flashing
+    Tracker.autorun(function(computation) {
+        if(Meteor.status().connected && Meteor.status().status === 'connected') {
+            instance.firstConnection.set(false);
+            computation.stop();
+        }
+    });
 });
 
 Template.meteorStatus.helpers({
@@ -67,15 +65,9 @@ Template.meteorStatus.helpers({
         return 'meteor-status-bottom';
     },
     show: function () {
-        //if browser do not show on first connection attempt
-        if(!Meteor.isCordova) {
-            if(!Template.instance().firstConnection.get() && !Meteor.status().connected && Meteor.status().status !== 'offline'){
-                return true;
-            }
-        } else {
-            if(!Meteor.status().connected && Meteor.status().status !== 'offline'){
-                return true;
-            }
+        //only show alert after the first connection attempt, if disconnected, if not manually disconnected (status == 'offline), if at least second retry
+        if(!Template.instance().firstConnection.get() && !Meteor.status().connected && Meteor.status().status !== 'offline' && Meteor.status().retryCount > 1){
+            return true;
         }
         return false;
     }
