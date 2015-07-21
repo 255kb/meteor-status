@@ -6,23 +6,19 @@ Template.meteorStatus.onCreated(function () {
     instance.options = {
         style: true,
         lang: 'en',
-        position: 'bottom'
+        position: 'bottom',
+        showLink: true,
+        msgText: '',
+        linkText: ''
     };
     instance.firstConnection = new ReactiveVar(true);
 
-    //get template options
+    //get template params
     if(Template.currentData()) {
-        //set style
-        if(Template.currentData().style !== undefined) {
-            instance.options.style = Template.currentData().style;
-        }
-        //set language
-        if(Template.currentData().lang !== undefined) {
-            instance.options.lang = Template.currentData().lang;
-        }
-        //set positioning
-        if(Template.currentData().position !== undefined) {
-            instance.options.position = Template.currentData().position;
+        for(var property in instance.options) {
+            if(Template.currentData()[property] !== undefined) {
+                instance.options[property] = Template.currentData()[property];
+            }
         }
     }
 
@@ -50,13 +46,24 @@ Template.meteorStatus.onCreated(function () {
 
 Template.meteorStatus.helpers({
     langDisconnected: function() {
-        return meteorStatusI18n[Template.instance().options.lang].disconnected.replace('%delay%', Template.instance().nextRetry.get());
+        if(Template.instance().options.msgText) {
+            return Template.instance().options.msgText.replace('%delay%', Template.instance().nextRetry.get());
+        } else {
+            return meteorStatusI18n[Template.instance().options.lang].disconnected.replace('%delay%', Template.instance().nextRetry.get());
+        }
     },
     langRetryLink: function() {
-        return meteorStatusI18n[Template.instance().options.lang].retry;
+        if(Template.instance().options.linkText) {
+            return Template.instance().options.linkText;
+        } else {
+            return meteorStatusI18n[Template.instance().options.lang].retry;
+        }
     },
     isStyled: function() {
         return Template.instance().options.style;
+    },
+    showLink: function() {
+        return Template.instance().options.showLink;
     },
     position: function () {
         if(Template.instance().options.position === 'top') {

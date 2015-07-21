@@ -4,8 +4,6 @@
 Meteor Status is a package which automatically alerts users when the connection to the server has been lost.
 It also shows a countdown (in seconds) until the next retry and allows users to manually retry in the meantime.
 
-The alert is fixed at the bottom of the screen and the design is based on Google's [Material Design snackbars](http://www.google.com/design/spec/components/snackbars-toasts.html).
-
 Here is how it looks like:
 
 ![Meteor Status screenshot](docs/screenshot.png)
@@ -35,25 +33,33 @@ Add the template before the `body` closing tag or anywhere else if you use the o
 
 You can add the following options to the template: 
 
-- `style=false`: remove style/UI/positioning (only displays the text and the link)
+- `style=true`: remove style/UI/positioning (only displays the text and the link)
 - `lang='en'`: change language (currently 'fr', 'en' and 'zh' supported, default to 'en')
-- `position='top'`: change positioning for styled version ('top' or 'bottom', default to bottom)
+- `position='bottom'`: change positioning for styled version ('top' or 'bottom', default to bottom)
+- `showLink=true`: display the retry link or not (true or false, default to true)
+- `msgText='... %delay%'`: override the message (add '%delay%' in the string to insert the number of seconds until the next retry)
+- `linkText='...'`: override the link text
 
+Example:
 
     <body>
         ...
-        {{> meteorStatus style=false lang='fr' position='top'}}
+        {{> meteorStatus style=false lang='fr' position='top' showLink=false msgText='Custom message'}}
     </body>
 
 
 ## Changelog
+
+### v1.4.0:
+- added option to show/hide the retry link
+- added the possibility to override the texts (message and link)
 
 ### v1.3.2:
 - alert does not show on first connection on cordova anymore (avoid having the alert showed at every startup)
 - alert does not show on first retry when disconnected (avoid alert appearing too frequently when having a laggy mobile connection)
 
 ### v1.3.1:
-- removed uneeded dependency (session)
+- removed unneeded dependency (session)
 - new language (chinese)
 
 ### v1.3.0:

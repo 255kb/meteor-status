@@ -1,9 +1,9 @@
 <template name="meteorStatus">
     {{#if show}}
         {{#if isStyled}}
-            <div class="meteor-status {{position}}">{{langDisconnected}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a></div>
+            <div class="meteor-status {{position}}">{{langDisconnected}}{{#if showLink}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>{{/if}}</div>
         {{else}}
-            {{langDisconnected}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>
+            {{langDisconnected}}{{#if showLink}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>{{/if}}
         {{/if}}
     {{/if}}
 </template>
