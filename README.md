@@ -34,7 +34,7 @@ Add the template before the `body` closing tag or anywhere else if you use the o
 You can add the following options to the template: 
 
 - `style=true`: remove style/UI/positioning (only displays the text and the link)
-- `lang='en'`: change language (currently 'fr', 'en' and 'zh' supported, default to 'en')
+- `lang='en'`: change language (currently 'fr', 'en', 'es' and 'zh' supported, default to 'en')
 - `position='bottom'`: change positioning for styled version ('top' or 'bottom', default to bottom)
 - `showLink=true`: display the retry link or not (true or false, default to true)
 - `msgText='... %delay%'`: override the message (add '%delay%' in the string to insert the number of seconds until the next retry)
@@ -49,6 +49,9 @@ Example:
 
 
 ## Changelog
+
+### v1.4.1:
+- added Spanish language
 
 ### v1.4.0:
 - added option to show/hide the retry link

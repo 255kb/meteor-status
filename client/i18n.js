@@ -4,8 +4,8 @@ meteorStatusI18n = {
         retry: 'Retry now'
     },   
     es: {
-            disconnected: 'Desconectado del servidor, reconectando en %delay% segundos.',
-            retry: 'Reintentar ahora'
+        disconnected: 'Desconectado del servidor, reconectando en %delay% segundos.',
+        retry: 'Reintentar ahora'
     },
     fr: {
         disconnected: 'Déconnecté du serveur, prochaine tentative de reconnexion dans %delay%s.',
