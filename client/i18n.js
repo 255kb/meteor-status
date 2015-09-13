@@ -14,5 +14,9 @@ meteorStatusI18n = {
     zh: {
         disconnected: '从服务器断开连接，%delay%秒后将尝试重新链接。',
         retry: '现在再试'
+    },
+    ar: {
+        disconnected: 'انقطع الاتصال، جاري اعادة المحاولة خلال %delay%ث.',
+        retry: 'جرب الآن'
     }
 };
