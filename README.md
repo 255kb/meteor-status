@@ -39,16 +39,20 @@ You can add the following options to the template:
 - `showLink=true`: display the retry link or not (true or false, default to true)
 - `msgText='... %delay%'`: override the message (add '%delay%' in the string to insert the number of seconds until the next retry)
 - `linkText='...'`: override the link text
+- `overlay=false`: overlay the connection status bar as transparent full screen
 
 Example:
 
     <body>
         ...
-        {{> meteorStatus style=false lang='fr' position='top' showLink=false msgText='Custom message'}}
+        {{> meteorStatus style=false lang='fr' position='top' showLink=false msgText='Custom message' overlay=true}}
     </body>
 
 
 ## Changelog
+
+### v1.4.3:
+- added option to display the status bar as overlay
 
 ### v1.4.2:
 - added Arabic language

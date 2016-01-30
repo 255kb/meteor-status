@@ -9,7 +9,8 @@ Template.meteorStatus.onCreated(function () {
         position: 'bottom',
         showLink: true,
         msgText: '',
-        linkText: ''
+        linkText: '',
+        overlay: false,
     };
     instance.firstConnection = new ReactiveVar(true);
 
@@ -77,6 +78,9 @@ Template.meteorStatus.helpers({
             return true;
         }
         return false;
+    },
+    overlay: function () {
+        return Template.instance().options.overlay === true ? 'meteor-status-overlay' : '';
     }
 });
 

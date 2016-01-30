@@ -23,3 +23,7 @@
     text-decoration: none;
     color: #1976D2;
 }
+.meteor-status-overlay {
+    opacity: 0.95;
+    height: 100%;
+}
