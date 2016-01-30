@@ -26,4 +26,5 @@
 .meteor-status-overlay {
     opacity: 0.95;
     height: 100%;
+    text-align: center;
 }

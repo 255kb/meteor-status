@@ -10,7 +10,7 @@ Template.meteorStatus.onCreated(function () {
         showLink: true,
         msgText: '',
         linkText: '',
-        overlay: false,
+        overlay: false
     };
     instance.firstConnection = new ReactiveVar(true);
 
@@ -67,10 +67,15 @@ Template.meteorStatus.helpers({
         return Template.instance().options.showLink;
     },
     position: function () {
-        if(Template.instance().options.position === 'top') {
-            return 'meteor-status-top';
+        if(Template.instance().options.overlay) {
+            return 'meteor-status-overlay';
+        } else {
+            if(Template.instance().options.position === 'top') {
+                return 'meteor-status-top';
+            } else {
+                return 'meteor-status-bottom';
+            }
         }
-        return 'meteor-status-bottom';
     },
     show: function () {
         //only show alert after the first connection attempt, if disconnected, if not manually disconnected (status == 'offline), if at least second retry
@@ -78,9 +83,6 @@ Template.meteorStatus.helpers({
             return true;
         }
         return false;
-    },
-    overlay: function () {
-        return Template.instance().options.overlay === true ? 'meteor-status-overlay' : '';
     }
 });
 
