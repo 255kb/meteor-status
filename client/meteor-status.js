@@ -9,10 +9,11 @@ Template.meteorStatus.onCreated(function () {
         position: 'bottom',
         showLink: true,
         msgText: '',
+        textDisconnect: '',
+        textConnecting: '',
         linkText: '',
         overlay: false
     };
-    instance.firstConnection = new ReactiveVar(true);
 
     //get template params
     if(Template.currentData()) {
@@ -35,23 +36,28 @@ Template.meteorStatus.onCreated(function () {
             Meteor.clearInterval(instance.updateCountdownTimeout);
         }
     });
-
-    //do not alert on first connection to avoid meteor status flashing
-    Tracker.autorun(function(computation) {
-        if(Meteor.status().connected && Meteor.status().status === 'connected') {
-            instance.firstConnection.set(false);
-            computation.stop();
-        }
-    });
 });
 
 Template.meteorStatus.helpers({
-    langDisconnected: function() {
-        if(Template.instance().options.msgText) {
-            return Template.instance().options.msgText.replace('%delay%', Template.instance().nextRetry.get());
+    langMessage: function() {
+        var lang = meteorStatusI18n[Template.instance().options.lang];
+
+        //if connecting or 0 seconds until next retry show 'connecting' text
+        if ((Meteor.status().status === 'connecting' || Template.instance().nextRetry.get() === 0)) {
+            if (Template.instance().options.textConnecting) {
+                return Template.instance().options.textConnecting;
+            } else if (lang.connecting) {
+                return lang.connecting;
+            }
         } else {
-            return meteorStatusI18n[Template.instance().options.lang].disconnected.replace('%delay%', Template.instance().nextRetry.get());
+            //keep msgText for backward compatibility
+            var customDisconnectText = Template.instance().options.textDisconnect || Template.instance().options.msgText;
+            if (customDisconnectText) {
+                return customDisconnectText.replace('%delay%', Template.instance().nextRetry.get());
+            }
         }
+
+        return lang.disconnected.replace('%delay%', Template.instance().nextRetry.get());
     },
     langRetryLink: function() {
         if(Template.instance().options.linkText) {
@@ -78,8 +84,8 @@ Template.meteorStatus.helpers({
         }
     },
     show: function () {
-        //only show alert after the first connection attempt, if disconnected, if not manually disconnected (status == 'offline), if at least second retry
-        if(!Template.instance().firstConnection.get() && !Meteor.status().connected && Meteor.status().status !== 'offline' && Meteor.status().retryCount > 1){
+        //only show alert if disconnected, if not manually disconnected (status == 'offline'), if at least second retry
+        if(!Meteor.status().connected && Meteor.status().status !== 'offline' && Meteor.status().retryCount > 2){
             return true;
         }
         return false;

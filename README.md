@@ -37,7 +37,9 @@ You can add the following options to the template:
 - `lang='en'`: change language (currently 'fr', 'en', 'es', 'zh' and 'ar' supported, default to 'en')
 - `position='bottom'`: change positioning for styled version ('top' or 'bottom', default to bottom)
 - `showLink=true`: display the retry link or not (true or false, default to true)
-- `msgText='... %delay%'`: override the message (add '%delay%' in the string to insert the number of seconds until the next retry)
+- `msgText='... %delay% ...'`: **(for backward compatibility only, use textDisconnect and textConnecting below)** override the message (add '%delay%' in the string to insert the number of seconds until the next retry)
+- `textDisconnect='... %delay%' ...`: override the message when disconnected and waiting for retry (add '%delay%' in the string to insert the number of seconds until the next retry)
+- `textConnecting='...`: override the message when reconnecting
 - `linkText='...'`: override the link text
 - `overlay=false`: display a full screen semi transparent alert with centered text (true or false, default to false)
 
@@ -45,11 +47,15 @@ Example:
 
     <body>
         ...
-        {{> meteorStatus style=false lang='fr' position='top' showLink=false msgText='Custom message' overlay=true}}
+        {{> meteorStatus style=false lang='fr' position='top' showLink=false textDisconnect='Custom disconnected message' textConnecting='Custom connecting message' overlay=true}}
     </body>
 
 
 ## Changelog
+
+### v1.5.0:
+- add different text for status "connecting" which is showing instead of "... in 0s", customizable (new textConnecting and textDisconnected variables, compatible with old msgText variable) and with fr/en translations
+- correct a problem where the alert was not showing if the app was started with no connection (airplane mode)
 
 ### v1.4.3:
 - added option to display the status bar as overlay
