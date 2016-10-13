@@ -5,7 +5,6 @@ Template.meteorStatus.onCreated(function () {
     instance.nextRetry = new ReactiveVar(0);
     instance.options = {
         style: true,
-        lang: 'en',
         position: 'bottom',
         showLink: true,
         msgText: '',
@@ -40,7 +39,8 @@ Template.meteorStatus.onCreated(function () {
 
 Template.meteorStatus.helpers({
     langMessage: function() {
-        var lang = meteorStatusI18n[Template.instance().options.lang];
+
+        var lang = Session.get('lang');
 
         //if connecting or 0 seconds until next retry show 'connecting' text
         if ((Meteor.status().status === 'connecting' || Template.instance().nextRetry.get() === 0)) {
@@ -63,7 +63,7 @@ Template.meteorStatus.helpers({
         if(Template.instance().options.linkText) {
             return Template.instance().options.linkText;
         } else {
-            return meteorStatusI18n[Template.instance().options.lang].retry;
+            return meteorStatusI18n[Session.get('lang')].retry;
         }
     },
     isStyled: function() {
