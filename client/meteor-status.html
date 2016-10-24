@@ -1,7 +1,12 @@
 <template name="meteorStatus">
     {{#if show}}
         {{#if isStyled}}
-            <div class="meteor-status {{position}}">{{langMessage}}{{#if showLink}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>{{/if}}</div>
+
+            <div class="meteor-status {{position}}">
+                <i class="fa fa-refresh fa-spin" style="font-size:22px;padding: 0 10px 0 10px;"></i>
+                {{langMessage}}{{#if showLink}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>{{/if}}
+            </div>
+
         {{else}}
             {{langMessage}}{{#if showLink}} <a href="#" class="meteor-status-retry">{{langRetryLink}}</a>{{/if}}
         {{/if}}
