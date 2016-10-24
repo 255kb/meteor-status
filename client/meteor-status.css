@@ -1,13 +1,20 @@
 .meteor-status {
-    background-color: #323232;
+    /*background-color: #ececec;*/
+    background-color: rgba(51, 51, 51, 0.72);
     color: #fff;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    /*font-family: Helvetica, Arial, sans-serif;*/
     position: fixed;
     right: 0;
-    left: 0;
+    /*left: 0;*/
     padding: 15px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
     z-index: 9999;
+    width: 280px;
+    height: 58px;
+    margin-top: 15px;
+    margin-right: 15px;
+
 }
 .meteor-status-top {
     top: 0;
@@ -16,12 +23,12 @@
     bottom: 0;
 }
 .meteor-status a, .meteor-status a:active, .meteor-status a:focus {
-    text-decoration: none;
-    color: #2196F3;
+    text-decoration: underline;
+    color: #ffffff;
 }
 .meteor-status a:hover {
-    text-decoration: none;
-    color: #1976D2;
+    text-decoration: underline;
+    color: #fff;
 }
 .meteor-status-overlay {
     opacity: 0.95;
