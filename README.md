@@ -1,3 +1,5 @@
+## /!\ This package is not maintained anymore /!\
+
 # Meteor Status
 
 ## What is it?
